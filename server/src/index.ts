@@ -4,13 +4,17 @@ import { config } from './config/index.js'
 
 dotenv.config()
 
-const app = express()
-const port = config('app.port')
+const start = async () => {
+  const port = config('app.port')
+  const app = express()
 
-app.get('/', (req, res) => {
+  app.get('/', (req, res) => {
     res.send('Hello world')
-})
+  })
 
-app.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Server side app listening on port ${port}`)
-})
+  })
+}
+
+start()
