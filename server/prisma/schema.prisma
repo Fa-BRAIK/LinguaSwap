@@ -11,25 +11,25 @@ datasource db {
 }
 
 model User {
-  id                            Int      @id @default(autoincrement())
+  id                            Int       @id @default(autoincrement())
   name                          String
-  email                         String   @unique
-  email_validated_at            DateTime
-  phone_number                  String   @unique
-  phone_number_verified_at      DateTime
+  email                         String    @unique
+  email_validated_at            DateTime?
+  phone_number                  String?   @unique
+  phone_number_verified_at      DateTime?
   salt                          String
   password                      String
-  profile_image                 String
-  cover_image                   String
-  gender                        String
-  date_of_birth                 DateTime @db.Date
-  introduction                  String   @db.Text
-  occupation                    String
-  interests                     String   @db.Text
-  hobbies                       String   @db.Text
-  website                       String
-  language_practice_preferences String   @db.Text
-  availability                  String   @db.Text
+  profile_image                 String?
+  cover_image                   String?
+  gender                        String?
+  date_of_birth                 DateTime? @db.Date
+  introduction                  String?   @db.Text
+  occupation                    String?
+  interests                     String?   @db.Text
+  hobbies                       String?   @db.Text
+  website                       String?
+  language_practice_preferences String?   @db.Text
+  availability                  String?   @db.Text
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -37,6 +37,10 @@ model User {
   addresses           Address[]
   socialMediaProfiles SocialMediaProfile[]
   userLanguages       UserLanguage[]
+  followers           Follower[]           @relation(name: "followers")
+  followings          Follower[]           @relation(name: "followings")
+  raters              Rating[]             @relation(name: "raters")
+  ratings             Rating[]             @relation(name: "ratings")
 }
 
 model SocialMediaProfile {
@@ -84,14 +88,14 @@ model City {
 }
 
 model Address {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   address_1   String
-  address_2   String
+  address_2   String?
   postal_code String
-  latitude    Decimal
-  longitude   Decimal
-  type        String
-  is_default  Boolean @default(false)
+  latitude    Decimal?
+  longitude   Decimal?
+  type        String   @default("home")
+  is_default  Boolean  @default(false)
 
   user    User @relation(fields: [user_id], references: [id])
   user_id Int
@@ -129,19 +133,67 @@ model Post {
   content    String   @db.MediumText
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
+
+  taggables Taggable[]
 }
 
 model Reel {
   id          Int      @id @default(autoincrement())
   title       String
-  description String   @db.Text
+  description String?  @db.Text
   reel_file   String
   created_at  DateTime @default(now())
+
+  taggables Taggable[]
 }
 
 model Tag {
   id         Int      @id @default(autoincrement())
   name       String
   created_at DateTime @default(now())
+
+  taggables Taggable[]
 }
 
+enum TaggableType {
+  POST
+  REEL
+}
+
+model Taggable {
+  id Int @id @default(autoincrement())
+
+  tag    Tag @relation(fields: [tag_id], references: [id])
+  tag_id Int
+
+  post Post? @relation(fields: [taggable_id], references: [id], map: "post_taggable_id")
+  reel Reel? @relation(fields: [taggable_id], references: [id], map: "reel_taggable_id")
+
+  taggable_type TaggableType @default(POST)
+  taggable_id   Int
+}
+
+model Follower {
+  user    User @relation(fields: [user_id], references: [id], name: "followings")
+  user_id Int
+
+  follower         User @relation(fields: [follower_user_id], references: [id], name: "followers")
+  follower_user_id Int
+
+  created_at DateTime @default(now())
+
+  @@id([user_id, follower_user_id])
+}
+
+model Rating {
+  user    User @relation(fields: [user_id], references: [id], name: "raters")
+  user_id Int
+
+  rater         User @relation(fields: [rater_user_id], references: [id], name: "ratings")
+  rater_user_id Int
+
+  value Int @db.UnsignedTinyInt
+  created_at DateTime @default(now())
+
+  @@id([user_id, rater_user_id])
+}
