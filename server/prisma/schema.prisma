@@ -41,6 +41,9 @@ model User {
   followings          Follower[]           @relation(name: "followings")
   raters              Rating[]             @relation(name: "raters")
   ratings             Rating[]             @relation(name: "ratings")
+  createdChatMembers  ChatMember[]         @relation(name: "creator")
+  chatMembers         ChatMember[]
+  chatMessages        ChatMessage[]
 
   @@map("users")
 }
@@ -152,6 +155,7 @@ model Post {
   updated_at DateTime @default(now()) @updatedAt
 
   taggables Taggable[]
+
   @@map("posts")
 }
 
@@ -163,6 +167,7 @@ model Reel {
   created_at  DateTime @default(now())
 
   taggables Taggable[]
+
   @@map("reels")
 }
 
@@ -172,6 +177,7 @@ model Tag {
   created_at DateTime @default(now())
 
   taggables Taggable[]
+
   @@map("tags")
 }
 
@@ -195,15 +201,15 @@ model Taggable {
 }
 
 model Follower {
-  user    User @relation(fields: [user_id], references: [id], name: "followings")
-  user_id Int
+  following    User @relation(fields: [following_id], references: [id], name: "followings")
+  following_id Int
 
-  follower         User @relation(fields: [follower_user_id], references: [id], name: "followers")
-  follower_user_id Int
+  follower    User @relation(fields: [follower_id], references: [id], name: "followers")
+  follower_id Int
 
   created_at DateTime @default(now())
 
-  @@id([user_id, follower_user_id])
+  @@id([following_id, follower_id])
   @@map("followers")
 }
 
@@ -214,9 +220,55 @@ model Rating {
   rater         User @relation(fields: [rater_user_id], references: [id], name: "ratings")
   rater_user_id Int
 
-  value Int @db.UnsignedTinyInt
+  value      Int      @db.UnsignedTinyInt
   created_at DateTime @default(now())
 
   @@id([user_id, rater_user_id])
   @@map("ratings")
+}
+
+model ChatRoom {
+  id Int @id @default(autoincrement())
+
+  name       String
+  created_at DateTime @default(now())
+
+  chatMessages ChatMessage[]
+
+  @@map("chat_rooms")
+}
+
+model ChatMember {
+  id         String  @id @default(uuid())
+  is_admin   Boolean @default(false)
+  is_blocked Boolean @default(false)
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  creator         User @relation(fields: [user_creator_id], references: [id], name: "creator")
+  user_creator_id Int
+
+  @@map("chat_members")
+}
+
+model ChatMessage {
+  id      String @id @default(uuid())
+  content String @db.Text
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  chatRoom     ChatRoom @relation(fields: [chat_room_id], references: [id])
+  chat_room_id Int
+
+  parentChatMessage      ChatMessage? @relation(fields: [parent_chat_message_id], references: [id], name: "parentMessage")
+  parent_chat_message_id String?
+
+  childMessages ChatMessage[] @relation(name: "parentMessage")
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("chat_messages")
 }
