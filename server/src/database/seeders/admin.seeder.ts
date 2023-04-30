@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { genSalt, hash } from 'bcrypt'
+import chalk from 'chalk'
 
 const prisma = new PrismaClient() 
 
@@ -20,7 +21,11 @@ const main = async () => {
         }
     })
 
-    console.log(`Admin account ${email} created with password : ${unhashedPassword}`)
+    console.log(
+        chalk.white.bgGreen(
+            `Admin account ${email} created with password : ${unhashedPassword}`
+        )
+    )
 }
 
 const generatePassword = (length: number): string => {
