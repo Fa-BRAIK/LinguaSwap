@@ -161,8 +161,6 @@ enum TaggableType {
 }
 
 model Taggable {
-  id Int @id @default(autoincrement())
-
   tag    Tag @relation(fields: [tag_id], references: [id])
   tag_id Int
 
@@ -171,6 +169,8 @@ model Taggable {
 
   taggable_type TaggableType @default(POST)
   taggable_id   Int
+
+  @@id([tag_id, taggable_id, taggable_type])
 }
 
 model Follower {
