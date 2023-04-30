@@ -41,6 +41,8 @@ model User {
   followings          Follower[]           @relation(name: "followings")
   raters              Rating[]             @relation(name: "raters")
   ratings             Rating[]             @relation(name: "ratings")
+
+  @@map("users")
 }
 
 model SocialMediaProfile {
@@ -50,6 +52,8 @@ model SocialMediaProfile {
 
   user    User @relation(fields: [user_id], references: [id])
   user_id Int
+
+  @@map("social_media_profiles")
 }
 
 model EducationLevel {
@@ -57,6 +61,8 @@ model EducationLevel {
   name        String @unique
   resume      String
   description String @db.Text
+
+  @@map("education_levels")
 }
 
 model Country {
@@ -65,6 +71,8 @@ model Country {
   code String @unique
 
   states State[]
+
+  @@map("countries")
 }
 
 model State {
@@ -75,6 +83,8 @@ model State {
   country_id Int
 
   Cities City[]
+
+  @@map("states")
 }
 
 model City {
@@ -85,6 +95,8 @@ model City {
   state_id Int
 
   addresses Address[]
+
+  @@map("cities")
 }
 
 model Address {
@@ -102,6 +114,8 @@ model Address {
 
   city    City @relation(fields: [city_id], references: [id])
   city_id Int
+
+  @@map("addresses")
 }
 
 model Language {
@@ -113,6 +127,8 @@ model Language {
   updated_at  DateTime @default(now()) @updatedAt
 
   userLanguages UserLanguage[]
+
+  @@map("languages")
 }
 
 model UserLanguage {
@@ -125,6 +141,7 @@ model UserLanguage {
   user_id Int
 
   @@id([language_id, user_id])
+  @@map("user_languages")
 }
 
 model Post {
@@ -135,6 +152,7 @@ model Post {
   updated_at DateTime @default(now()) @updatedAt
 
   taggables Taggable[]
+  @@map("posts")
 }
 
 model Reel {
@@ -145,6 +163,7 @@ model Reel {
   created_at  DateTime @default(now())
 
   taggables Taggable[]
+  @@map("reels")
 }
 
 model Tag {
@@ -153,6 +172,7 @@ model Tag {
   created_at DateTime @default(now())
 
   taggables Taggable[]
+  @@map("tags")
 }
 
 enum TaggableType {
@@ -171,6 +191,7 @@ model Taggable {
   taggable_id   Int
 
   @@id([tag_id, taggable_id, taggable_type])
+  @@map("taggables")
 }
 
 model Follower {
@@ -183,6 +204,7 @@ model Follower {
   created_at DateTime @default(now())
 
   @@id([user_id, follower_user_id])
+  @@map("followers")
 }
 
 model Rating {
@@ -196,4 +218,5 @@ model Rating {
   created_at DateTime @default(now())
 
   @@id([user_id, rater_user_id])
+  @@map("ratings")
 }
