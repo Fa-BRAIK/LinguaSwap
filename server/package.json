@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@adminjs/express": "^6.0.0",
-    "@adminjs/prisma": "^4.0.0",
     "@prisma/client": "^4.13.0",
     "concurrently": "^8.0.1",
     "dotenv": "^16.0.3",
