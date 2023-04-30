@@ -31,6 +31,7 @@
     "tslib": "^2.5.0"
   },
   "imports": {
-    "#src/*": "./dist/*"
+    "#src/*": "./dist/*",
+    "#routes/*": "./dist/routes/*"
   }
 }

@@ -6,7 +6,8 @@
         "sourceMap": true,
         "outDir": "dist",
         "paths": {
-            "#src/*": ["./src/*"]
+            "#src/*": ["./src/*"],
+            "#routes/*": ["./src/routes/*"]
         }
     },
     "include": ["src/**/*"]

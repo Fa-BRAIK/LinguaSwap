@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
+import adminUserRouter from '#routes/admin/user.routes.js'
+
 const router = Router() 
 
-router.get('/', (req, res) => {
-    res.send('Welcome to admin routes')
-})
+router.use('/users', adminUserRouter)
 
 export default router 

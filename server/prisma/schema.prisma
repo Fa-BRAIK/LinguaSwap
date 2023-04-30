@@ -10,6 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Admin {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  salt       String
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("admins")
+}
+
 model User {
   id                            Int       @id @default(autoincrement())
   name                          String
@@ -30,9 +42,8 @@ model User {
   website                       String?
   language_practice_preferences String?   @db.Text
   availability                  String?   @db.Text
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime  @default(now()) @updatedAt
 
   addresses           Address[]
   socialMediaProfiles SocialMediaProfile[]
@@ -56,22 +67,29 @@ model SocialMediaProfile {
   user    User @relation(fields: [user_id], references: [id])
   user_id Int
 
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
   @@map("social_media_profiles")
 }
 
 model EducationLevel {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   resume      String
-  description String @db.Text
+  description String   @db.Text
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
 
   @@map("education_levels")
 }
 
 model Country {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  code String @unique
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  code       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   states State[]
 
@@ -85,6 +103,9 @@ model State {
   country    Country @relation(fields: [country_id], references: [id])
   country_id Int
 
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
   Cities City[]
 
   @@map("states")
@@ -96,6 +117,9 @@ model City {
 
   state    State @relation(fields: [state_id], references: [id])
   state_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   addresses Address[]
 
@@ -117,6 +141,9 @@ model Address {
 
   city    City @relation(fields: [city_id], references: [id])
   city_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   @@map("addresses")
 }
@@ -142,6 +169,9 @@ model UserLanguage {
 
   user    User @relation(fields: [user_id], references: [id])
   user_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   @@id([language_id, user_id])
   @@map("user_languages")
@@ -216,12 +246,13 @@ model Follower {
 model Rating {
   user    User @relation(fields: [user_id], references: [id], name: "raters")
   user_id Int
+  value   Int  @db.UnsignedTinyInt
 
   rater         User @relation(fields: [rater_user_id], references: [id], name: "ratings")
   rater_user_id Int
 
-  value      Int      @db.UnsignedTinyInt
   created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   @@id([user_id, rater_user_id])
   @@map("ratings")
@@ -271,4 +302,25 @@ model ChatMessage {
   updated_at DateTime @default(now()) @updatedAt
 
   @@map("chat_messages")
+}
+
+model NoticationMessage {
+  id         Int      @id @default(autoincrement())
+  identifier String   @unique
+  title      String
+  content    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("notification_messages")
+}
+
+model Notification {
+  id      String  @id @default(uuid())
+  is_read Boolean @default(false)
+  action  String?
+
+  created_at DateTime @default(now())
+
+  @@map("notifications")
 }
