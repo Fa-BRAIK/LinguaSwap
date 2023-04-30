@@ -10,11 +10,138 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Language {
-  id Int @id @default(autoincrement())
-  name String @unique
+model User {
+  id                            Int      @id @default(autoincrement())
+  name                          String
+  email                         String   @unique
+  email_validated_at            DateTime
+  phone_number                  String   @unique
+  phone_number_verified_at      DateTime
+  salt                          String
+  password                      String
+  profile_image                 String
+  cover_image                   String
+  gender                        String
+  date_of_birth                 DateTime @db.Date
+  introduction                  String   @db.Text
+  occupation                    String
+  interests                     String   @db.Text
+  hobbies                       String   @db.Text
+  website                       String
+  language_practice_preferences String   @db.Text
+  availability                  String   @db.Text
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  addresses           Address[]
+  socialMediaProfiles SocialMediaProfile[]
+  userLanguages       UserLanguage[]
+}
+
+model SocialMediaProfile {
+  id           Int    @id @default(autoincrement())
+  profile_type String
+  profile_url  String
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+}
+
+model EducationLevel {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  resume      String
   description String @db.Text
-  difficulty Int @db.UnsignedTinyInt
+}
+
+model Country {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  code String @unique
+
+  states State[]
+}
+
+model State {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  country    Country @relation(fields: [country_id], references: [id])
+  country_id Int
+
+  Cities City[]
+}
+
+model City {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  state    State @relation(fields: [state_id], references: [id])
+  state_id Int
+
+  addresses Address[]
+}
+
+model Address {
+  id          Int     @id @default(autoincrement())
+  address_1   String
+  address_2   String
+  postal_code String
+  latitude    Decimal
+  longitude   Decimal
+  type        String
+  is_default  Boolean @default(false)
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  city    City @relation(fields: [city_id], references: [id])
+  city_id Int
+}
+
+model Language {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String   @db.Text
+  difficulty  Int      @db.UnsignedTinyInt
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  userLanguages UserLanguage[]
+}
+
+model UserLanguage {
+  level Int @db.UnsignedTinyInt
+
+  language    Language @relation(fields: [language_id], references: [id])
+  language_id Int
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  @@id([language_id, user_id])
+}
+
+model Post {
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String   @db.MediumText
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 }
+
+model Reel {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @db.Text
+  reel_file   String
+  created_at  DateTime @default(now())
+}
+
+model Tag {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+}
+
