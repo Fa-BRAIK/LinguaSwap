@@ -1,4 +1,5 @@
 import { GenericError } from '#src/errors/generic.error.js'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/index.js'
 import { NextFunction, Request, Response } from 'express'
 
 const handleError = async (
@@ -7,6 +8,7 @@ const handleError = async (
   res: Response,
   next: NextFunction
 ) => {
+    console.log(error)
     if (!(error instanceof GenericError)) {
         error = handleNonGenericError(error)
     }
@@ -28,6 +30,14 @@ const handleError = async (
 }
 
 const handleNonGenericError = (error: any): GenericError|null => {
+    if (error instanceof PrismaClientKnownRequestError) {
+        console.log(error)
+
+        return new GenericError(
+            500,
+            'Server error'
+        )
+    }
     // if (error instanceof TokenExpiredError || err instanceof JsonWebTokenError) {
     //     const error = new GenericError(
     //       401,

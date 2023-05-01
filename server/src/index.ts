@@ -7,6 +7,8 @@ dotenv.config()
 
 import { config } from '#config/index.js'
 
+console.log(config('app'), config('auth'))
+
 const port = config('app.port')
 const app = express()
 
@@ -15,6 +17,8 @@ app.use(router)
 
 app.listen(port, () => {
   console.log(
-    chalk.green.bgGreen(`Server side app listening on port ${port} in ${config('app.env')}`)
+    chalk.green.bgGreen(
+      `Server side app listening on port ${port} in ${config('app.env')}`
+    )
   )
 })
