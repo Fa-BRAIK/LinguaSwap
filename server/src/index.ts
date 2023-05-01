@@ -9,6 +9,7 @@ dotenv.config()
 const port = config('app.port')
 const app = express()
 
+app.use(express.json())
 app.use(router)
 
 app.listen(port, () => {

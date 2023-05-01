@@ -7,7 +7,9 @@
         "outDir": "dist",
         "paths": {
             "#src/*": ["./src/*"],
-            "#routes/*": ["./src/routes/*"]
+            "#routes/*": ["./src/routes/*"],
+            "#controller/*": ["./src/controllers/*"],
+            "#validators/*": ["./src/validators/*"]
         }
     },
     "include": ["src/**/*"]
