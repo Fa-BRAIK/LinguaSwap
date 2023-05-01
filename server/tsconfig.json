@@ -6,11 +6,13 @@
         "sourceMap": true,
         "outDir": "dist",
         "paths": {
-            "#src/*": ["./src/*"],
             "#routes/*": ["./src/routes/*"],
-            "#controller/*": ["./src/controllers/*"],
+            "#controllers/*": ["./src/controllers/*"],
             "#validators/*": ["./src/validators/*"],
-            "#errors/*": ["./src/errors/*"]
+            "#errors/*": ["./src/errors/*"],
+            "#handlers/*": ["./src/handlers/*"],
+            "#config/*": ["./src/config/*"],
+            "#src/*": ["./src/*"]
         }
     },
     "include": ["src/**/*"]

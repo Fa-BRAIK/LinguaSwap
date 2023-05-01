@@ -5,7 +5,7 @@ import { compare } from 'bcrypt'
 
 const prisma = new PrismaClient() 
 
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response, next) => {
     const user = await prisma.admin.findFirst({
         where: { email: req.body.email }
     })

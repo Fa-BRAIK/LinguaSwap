@@ -42,10 +42,12 @@
     "tslib": "^2.5.0"
   },
   "imports": {
-    "#src/*": "./dist/*",
     "#routes/*": "./dist/routes/*",
     "#controllers/*": "./dist/controllers/*",
     "#validators/*": "./dist/validators/*",
-    "#errors/*": "./dist/errors/*"
+    "#errors/*": "./dist/errors/*",
+    "#handlers/*": "./dist/handlers/*",
+    "#config/*": "./dist/config/*",
+    "#src/*": "./dist/*"
   }
 }
