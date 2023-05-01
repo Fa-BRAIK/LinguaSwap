@@ -18,7 +18,7 @@ model Admin {
   password      String
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now()) @updatedAt
-  refreshTokens RefreshToken[]
+  //refreshTokens RefreshToken[]
 
   @@map("admins")
 }
@@ -56,7 +56,7 @@ model User {
   createdChatMembers  ChatMember[]         @relation(name: "creator")
   chatMembers         ChatMember[]
   chatMessages        ChatMessage[]
-  refreshTokens       RefreshToken[]
+  //refreshTokens       RefreshToken[]
 
   @@map("users")
 }
@@ -72,8 +72,8 @@ model RefreshToken {
   created_at DateTime @default(now())
   expires_at DateTime
 
-  admin Admin? @relation(fields: [authenticable_id], references: [id], map: "admin_authenticable_id")
-  user  User?  @relation(fields: [authenticable_id], references: [id], map: "user_authenticable_id")
+  //admin Admin? @relation(fields: [authenticable_id], references: [id], map: "admin_authenticable_id")
+  //user  User?  @relation(fields: [authenticable_id], references: [id], map: "user_authenticable_id")
 
   authenticable_id   Int
   authenticable_type AuthenticableType @default(USER)
