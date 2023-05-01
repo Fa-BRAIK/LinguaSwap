@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Admin {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  salt       String
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  salt          String
+  password      String
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @default(now()) @updatedAt
+  refreshTokens RefreshToken[]
 
   @@map("admins")
 }
@@ -55,8 +56,28 @@ model User {
   createdChatMembers  ChatMember[]         @relation(name: "creator")
   chatMembers         ChatMember[]
   chatMessages        ChatMessage[]
+  refreshTokens       RefreshToken[]
 
   @@map("users")
+}
+
+enum AuthenticableType {
+  USER
+  ADMIN
+}
+
+model RefreshToken {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  expires_at DateTime
+
+  admin Admin? @relation(fields: [authenticable_id], references: [id], map: "admin_authenticable_id")
+  user  User?  @relation(fields: [authenticable_id], references: [id], map: "user_authenticable_id")
+
+  authenticable_id   Int
+  authenticable_type AuthenticableType @default(USER)
+
+  @@map("refresh_tokens")
 }
 
 model SocialMediaProfile {
