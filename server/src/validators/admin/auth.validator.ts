@@ -5,7 +5,7 @@ export const validateLogin = () =>
     async (req: Request, res: Response, next: NextFunction) => {
         let validations: ValidationChain[] = [
             body('email').trim().isEmail(),
-            body('password').notEmpty()
+            body('password').notEmpty().trim()
         ]
 
         for (let validation of validations) {

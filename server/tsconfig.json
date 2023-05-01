@@ -9,7 +9,8 @@
             "#src/*": ["./src/*"],
             "#routes/*": ["./src/routes/*"],
             "#controller/*": ["./src/controllers/*"],
-            "#validators/*": ["./src/validators/*"]
+            "#validators/*": ["./src/validators/*"],
+            "#errors/*": ["./src/errors/*"]
         }
     },
     "include": ["src/**/*"]

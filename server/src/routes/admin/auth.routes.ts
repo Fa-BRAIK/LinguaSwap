@@ -1,13 +1,9 @@
-import { validateLogin } from '#src/validators/admin/auth.validator.js'
 import { Router } from 'express'
+import { validateLogin } from '#validators/admin/auth.validator.js'
+import AuthController from '#src/controllers/admin/auth.controller.js'
 
-const router = Router() 
+const router = Router()
 
-router.get('/test', (req, res) => {
-    res.send('ok')
-})
-router.post('/login', validateLogin(), (req, res) => {
-    res.send('Login route')
-})
+router.post('/login', validateLogin(), AuthController.login)
 
 export default router 

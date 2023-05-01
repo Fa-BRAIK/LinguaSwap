@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { genSalt, hash } from 'bcrypt'
 import chalk from 'chalk'
 
-const prisma = new PrismaClient() 
+const prisma = new PrismaClient()
 
 const main = async () => {
     const email = 'admin@farouk.ca'

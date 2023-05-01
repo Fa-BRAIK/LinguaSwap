@@ -44,6 +44,8 @@
   "imports": {
     "#src/*": "./dist/*",
     "#routes/*": "./dist/routes/*",
-    "#controllers/*": "./dist/controllers/*"
+    "#controllers/*": "./dist/controllers/*",
+    "#validators/*": "./dist/validators/*",
+    "#errors/*": "./dist/errors/*"
   }
 }
