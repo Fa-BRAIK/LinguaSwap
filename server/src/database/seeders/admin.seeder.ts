@@ -7,8 +7,8 @@ const prisma = new PrismaClient()
 const main = async () => {
     const email = 'admin@farouk.ca'
     const unhashedPassword = generatePassword(8)
-    const salt = await genSalt(8)
-    const password = await hash('password', salt)
+    const salt = await genSalt()
+    const password = await hash(unhashedPassword, salt)
 
     await prisma.admin.upsert({
         where: { email },

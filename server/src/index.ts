@@ -1,10 +1,11 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import { config } from '#config/index.js'
 import router from '#routes/routes.js'
 import chalk from 'chalk'
 
 dotenv.config()
+
+import { config } from '#config/index.js'
 
 const port = config('app.port')
 const app = express()

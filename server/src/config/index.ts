@@ -1,12 +1,14 @@
 import app from './app.js'
+import auth from './auth.js'
 
 const configs = {
-    app
+    app,
+    auth
 }
 
 export default configs
 
-export const config = (key: string) => {
+export const config = (key: string): any => {
     try {
         key = key.replace(/\[(\w+)\]/g, '.$1')
         key = key.replace(/^\./, '')
