@@ -92,6 +92,7 @@ const refreshToken = async (req: Request, res: Response) => {
 }
 
 const logout = async (req: Request, res: Response) => {
+  console.log(req.admin)
   const token = req.body.token
 
   if (!token) {

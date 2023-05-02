@@ -12,6 +12,7 @@
             "#errors/*": ["./src/errors/*"],
             "#handlers/*": ["./src/handlers/*"],
             "#config/*": ["./src/config/*"],
+            "#middlewares/*": ["./src/middlewares/*"],
             "#src/*": ["./src/*"]
         }
     },

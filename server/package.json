@@ -51,6 +51,7 @@
     "#errors/*": "./dist/errors/*",
     "#handlers/*": "./dist/handlers/*",
     "#config/*": "./dist/config/*",
+    "#middlewares/*": "./dist/middlewares/*",
     "#src/*": "./dist/*"
   }
 }

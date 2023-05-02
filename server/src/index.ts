@@ -7,8 +7,6 @@ dotenv.config()
 
 import { config } from '#config/index.js'
 
-console.log(config('app'), config('auth'))
-
 const port = config('app.port')
 const app = express()
 
