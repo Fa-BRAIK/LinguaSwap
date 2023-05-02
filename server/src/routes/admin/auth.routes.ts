@@ -6,5 +6,6 @@ import { asyncHandler } from '#handlers/async.handler.js'
 const router = Router()
 
 router.post('/login', validateLogin(), asyncHandler(AuthController.login))
+router.post('/refresh', asyncHandler(AuthController.refreshToken))
 
 export default router 
