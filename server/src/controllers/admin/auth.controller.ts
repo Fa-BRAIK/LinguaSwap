@@ -34,7 +34,7 @@ const login = async (req: Request, res: Response, next) => {
     expiresIn: '7d',
   })
 
-  const refreshToken = await prisma.refreshToken.create({
+  await prisma.refreshToken.create({
     data: {
       authenticable_id: admin.id,
       authenticable_type: 'ADMIN',
@@ -48,7 +48,7 @@ const login = async (req: Request, res: Response, next) => {
     data: {
       admin,
       access_token,
-      refreshToken,
+      refresh_token,
     },
   })
 }
