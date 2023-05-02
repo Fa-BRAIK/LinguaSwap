@@ -7,5 +7,6 @@ const router = Router()
 
 router.post('/login', validateLogin(), asyncHandler(AuthController.login))
 router.post('/refresh', asyncHandler(AuthController.refreshToken))
+router.post('/logout', asyncHandler(AuthController.logout))
 
 export default router 

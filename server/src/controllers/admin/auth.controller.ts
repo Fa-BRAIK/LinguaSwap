@@ -91,7 +91,30 @@ const refreshToken = async (req: Request, res: Response) => {
   })
 }
 
+const logout = async (req: Request, res: Response) => {
+  const token = req.body.token
+
+  if (!token) {
+    throw new GenericError(400, 'Missing token')
+  }
+
+  const admin = <Admin>jwt.verify(token, config('auth.jwt.refresh_token'))
+
+  await prisma.refreshToken.deleteMany({
+    where: {
+      authenticable_id: admin.id,
+      authenticable_type: 'ADMIN',
+      token
+    },
+  })
+
+  res.status(200).json({
+    messages: ['Successfully logged out']
+  })
+}
+
 export default {
   login,
-  refreshToken
+  refreshToken,
+  logout
 }
