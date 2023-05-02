@@ -9,7 +9,7 @@ export const authenticateAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
-    const prisma = new PrismaClient()
+    const prisma = req.prisma ?? new PrismaClient()
 
     try {
         if (

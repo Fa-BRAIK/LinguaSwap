@@ -7,10 +7,8 @@ import { config } from '#config/index.js'
 import moment from 'moment'
 import { GenericError } from '#errors/generic.error.js'
 
-const prisma = new PrismaClient()
-
-const login = async (req: Request, res: Response, next) => {
-  const admin = await prisma.admin.findFirst({
+const login = async (req: Request, res: Response) => {
+  const admin = await req.prisma.admin.findFirst({
     where: { email: req.body.email },
   })
 
@@ -36,7 +34,7 @@ const login = async (req: Request, res: Response, next) => {
 
   const now = moment()
 
-  await prisma.refreshToken.create({
+  await req.prisma.refreshToken.create({
     data: {
       authenticable_id: admin.id,
       authenticable_type: 'ADMIN',
@@ -64,7 +62,7 @@ const refreshToken = async (req: Request, res: Response) => {
 
   const admin = <Admin>jwt.verify(token, config('auth.jwt.refresh_token'))
 
-  const refresh_token = await prisma.refreshToken.findFirst({
+  const refresh_token = await req.prisma.refreshToken.findFirst({
     where: {
       authenticable_id: admin.id,
       authenticable_type: 'ADMIN',
@@ -101,7 +99,7 @@ const logout = async (req: Request, res: Response) => {
 
   const admin = <Admin>jwt.verify(token, config('auth.jwt.refresh_token'))
 
-  await prisma.refreshToken.deleteMany({
+  await req.prisma.refreshToken.deleteMany({
     where: {
       authenticable_id: admin.id,
       authenticable_type: 'ADMIN',
