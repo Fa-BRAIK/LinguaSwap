@@ -1,3 +1,4 @@
+import { validationHandler } from '#handlers/validator.handler.js'
 import { NextFunction, Request, Response } from 'express'
 import { ValidationChain, body, validationResult } from 'express-validator'
 
@@ -8,13 +9,9 @@ export const validateLogin = () =>
             body('password').notEmpty().trim()
         ]
 
-        for (let validation of validations) {
-            const result = await validation.run(req)
-            if (result['errors']?.length) break
-        }
+        const errors = await validationHandler(req, validations)
 
-        const errors = validationResult(req)
-        if (errors.isEmpty()) {
+        if (!errors) {
             return next()
         }
 

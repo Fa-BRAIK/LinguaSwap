@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validateLogin } from '#validators/admin/auth.validator.js'
-import AuthController from '#controllers/admin/auth.controller.js'
+import authController from '#controllers/admin/auth.controller.js'
 import { asyncHandler } from '#handlers/async.handler.js'
 import { authenticateAdmin } from '#middlewares/admin/authenticate-admin.middleware.js'
 import { requiresPrisma } from '#middlewares/core/requires-prisma.middleware.js'
@@ -11,15 +11,15 @@ router.post(
   '/login',
   validateLogin(),
   requiresPrisma,
-  asyncHandler(AuthController.login)
+  asyncHandler(authController.login)
 )
 
-router.post('/refresh', asyncHandler(AuthController.refreshToken))
+router.post('/refresh', asyncHandler(authController.refreshToken))
 
 router.post(
   '/logout',
   [requiresPrisma, authenticateAdmin],
-  asyncHandler(AuthController.logout)
+  asyncHandler(authController.logout)
 )
 
 export default router

@@ -23,6 +23,11 @@ model Admin {
   @@map("admins")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 model User {
   id                            Int       @id @default(autoincrement())
   name                          String
@@ -34,7 +39,7 @@ model User {
   password                      String
   profile_image                 String?
   cover_image                   String?
-  gender                        String?
+  gender                        Gender?
   date_of_birth                 DateTime? @db.Date
   introduction                  String?   @db.Text
   occupation                    String?

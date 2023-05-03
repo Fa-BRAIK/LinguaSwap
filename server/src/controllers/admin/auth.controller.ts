@@ -1,5 +1,5 @@
 import { LoginError } from '#errors/login.error.js'
-import { Admin, PrismaClient } from '@prisma/client'
+import { Admin } from '@prisma/client'
 import { Request, Response } from 'express'
 import { compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
