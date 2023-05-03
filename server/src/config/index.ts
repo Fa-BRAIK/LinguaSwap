@@ -26,7 +26,7 @@ export const config = (key: string): any => {
             }
         }
 
-        return config
+        return (<any>config)()
     } catch (e) {
         return null
     }

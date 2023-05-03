@@ -7,24 +7,28 @@ import userController from '#controllers/admin/user.controller.js'
 
 const router = Router()
 
+router.use(requiresPrisma, authenticateAdmin)
+
 router.post(
   '/',
-  [requiresPrisma, authenticateAdmin],
   validateStoreUser(),
   asyncHandler(userController.store)
 )
 
 router.patch(
     '/:id([0-9]+)',
-    [requiresPrisma, authenticateAdmin],
     validateUpdateUser(),
     asyncHandler(userController.update)
 )
 
 router.delete(
     '/:id([0-9]+)',
-    [requiresPrisma, authenticateAdmin],
     asyncHandler(userController.remove)
+)
+
+router.get(
+    '/:id([0-9]+)',
+    asyncHandler(userController.read)
 )
 
 export default router

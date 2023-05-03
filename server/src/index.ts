@@ -2,11 +2,10 @@ import express from 'express'
 import dotenv from 'dotenv'
 import chalk from 'chalk'
 import router from '#routes/routes.js'
+import { onlyJsonRequests } from '#middlewares/core/only-ajax.middleware.js'
+import { config } from '#config/index.js'
 
 dotenv.config()
-
-import { config } from '#config/index.js'
-import { onlyJsonRequests } from '#middlewares/core/only-ajax.middleware.js'
 
 const port = config('app.port')
 const app = express()
