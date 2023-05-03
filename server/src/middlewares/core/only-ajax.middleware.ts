@@ -1,3 +1,4 @@
+import HttpStatusCode from '#enums/http-statuses.enum.js'
 import { Request, Response, NextFunction } from 'express'
 
 export const onlyJsonRequests = (
@@ -6,7 +7,7 @@ export const onlyJsonRequests = (
   next: NextFunction
 ) => {
   if (!req.xhr) {
-    return res.status(421).json({
+    return res.status(HttpStatusCode.MISDIRECTED_REQUEST).json({
       message: 'Misdirected request',
     })
   }

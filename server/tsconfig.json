@@ -13,6 +13,7 @@
             "#handlers/*": ["./src/handlers/*"],
             "#config/*": ["./src/config/*"],
             "#middlewares/*": ["./src/middlewares/*"],
+            "#enums/*": ["./src/enums/*"],
             "#src/*": ["./src/*"]
         }
     },

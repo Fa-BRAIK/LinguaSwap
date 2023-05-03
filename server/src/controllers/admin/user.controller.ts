@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { genSalt, hash } from 'bcrypt'
 import { NotFoundError } from '#errors/not-found.error.js'
+import HttpStatusCode from '#enums/http-statuses.enum.js'
 
 const generateData = async (req: Request) => {
   const data = {
@@ -57,7 +58,7 @@ const store = async (req: Request, res: Response) => {
 
   delete user.password, delete user.salt
 
-  res.status(201).json({
+  res.status(HttpStatusCode.CREATED).json({
     messages: ['User successfully created'],
     data: {
       user,
@@ -75,7 +76,7 @@ const update = async (req: Request, res: Response) => {
     data: await generateData(req),
   })
 
-  res.status(200).json({
+  res.status(HttpStatusCode.OK).json({
     messages: ['User successfully updated!'],
     data: {
       user,
@@ -92,15 +93,30 @@ const remove = async (req: Request, res: Response) => {
     where: { id },
   })
 
-  res.status(200).json({
+  res.status(HttpStatusCode.OK).json({
     messages: ['User successfully deleted!'],
+    data: {
+      user,
+    },
+  })
+}
+
+const read = async (req: Request, res: Response) => {
+  const id = Number(req.params.id)
+
+  await checkUser(req, id)
+
+  const user = await req.prisma.user.findFirst({
+    where: { id },
+  })
+
+  res.status(HttpStatusCode.OK).json({
+    messages: ['User successfully retrieved!'],
     data: {
         user
     }
   })
 }
-
-const read = async (req: Request, res: Response) => {}
 
 export default {
   index,

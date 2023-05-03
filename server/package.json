@@ -52,6 +52,7 @@
     "#handlers/*": "./dist/handlers/*",
     "#config/*": "./dist/config/*",
     "#middlewares/*": "./dist/middlewares/*",
+    "#enums/*": "./dist/enums/*",
     "#src/*": "./dist/*"
   }
 }

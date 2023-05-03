@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import { config } from '#config/index.js'
 import { LoginError } from '#errors/login.error.js'
+import HttpStatusCode from '#enums/http-statuses.enum.js'
 
 export const authenticateAdmin = async (
   req: Request,
@@ -38,6 +39,6 @@ export const authenticateAdmin = async (
 
         throw new Error
     } catch(e) {
-        next(new LoginError(401, 'You are not logged in! Please log in to get access'))
+        next(new LoginError(HttpStatusCode.UNAUTHORIZED, 'You are not logged in! Please log in to get access'))
     }
 }

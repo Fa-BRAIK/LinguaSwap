@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import { config } from '#config/index.js'
 import moment from 'moment'
 import { GenericError } from '#errors/generic.error.js'
+import HttpStatusCode from '#enums/http-statuses.enum.js'
 
 const login = async (req: Request, res: Response) => {
   const admin = await req.prisma.admin.findFirst({
@@ -13,13 +14,13 @@ const login = async (req: Request, res: Response) => {
   })
 
   if (!admin) {
-    throw new LoginError(401, 'Incorrect credentials')
+    throw new LoginError(HttpStatusCode.UNAUTHORIZED, 'Incorrect credentials')
   }
 
   const correctCredentials = await compare(req.body.password, admin.password)
 
   if (!correctCredentials) {
-    throw new LoginError(401, 'Incorrect credentials')
+    throw new LoginError(HttpStatusCode.UNAUTHORIZED, 'Incorrect credentials')
   }
 
   delete admin.password, delete admin.salt
@@ -43,7 +44,7 @@ const login = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(200).json({
+  res.status(HttpStatusCode.OK).json({
     messages: ['User successfully logged in!'],
     data: {
       admin,
@@ -57,7 +58,10 @@ const refreshToken = async (req: Request, res: Response) => {
   const token = req.body.token
 
   if (!token) {
-    throw new GenericError(401, 'Invalid token, unauthorized')
+    throw new GenericError(
+      HttpStatusCode.UNAUTHORIZED,
+      'Invalid token, unauthorized'
+    )
   }
 
   const admin = <Admin>jwt.verify(token, config('auth.jwt.refresh_token'))
@@ -72,7 +76,10 @@ const refreshToken = async (req: Request, res: Response) => {
   const now = moment()
 
   if (!refresh_token || moment(refresh_token.expires_at).isBefore(now)) {
-    throw new GenericError(401, 'Invalid token, unauthorized')
+    throw new GenericError(
+      HttpStatusCode.CREATED,
+      'Invalid token, unauthorized'
+    )
   }
 
   delete admin['iat'], delete admin['exp']
@@ -81,10 +88,10 @@ const refreshToken = async (req: Request, res: Response) => {
     expiresIn: '7d',
   })
 
-  res.status(200).json({
+  res.status(HttpStatusCode.CREATED).json({
     messages: ['Refresh token used, new access token has being given'],
     data: {
-      access_token
+      access_token,
     },
   })
 }
@@ -94,7 +101,7 @@ const logout = async (req: Request, res: Response) => {
   const token = req.body.token
 
   if (!token) {
-    throw new GenericError(400, 'Missing token')
+    throw new GenericError(HttpStatusCode.UNPROCESSABLE_ENTITY, 'Missing token')
   }
 
   const admin = <Admin>jwt.verify(token, config('auth.jwt.refresh_token'))
@@ -103,17 +110,17 @@ const logout = async (req: Request, res: Response) => {
     where: {
       authenticable_id: admin.id,
       authenticable_type: 'ADMIN',
-      token
+      token,
     },
   })
 
-  res.status(200).json({
-    messages: ['Successfully logged out']
+  res.status(HttpStatusCode.OK).json({
+    messages: ['Successfully logged out'],
   })
 }
 
 export default {
   login,
   refreshToken,
-  logout
+  logout,
 }

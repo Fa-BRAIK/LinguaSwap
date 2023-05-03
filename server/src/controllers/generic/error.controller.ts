@@ -1,3 +1,4 @@
+import HttpStatusCode from '#enums/http-statuses.enum.js'
 import { GenericError } from '#src/errors/generic.error.js'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/index.js'
 import { NextFunction, Request, Response } from 'express'
@@ -21,7 +22,7 @@ const handleError = async (
                 // fields: 
             })
     } else {
-        res.status(500).json({
+        res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
             status: 'error',
             message: 'Server error',
             // fields: 

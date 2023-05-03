@@ -1,3 +1,4 @@
+import HttpStatusCode from '#enums/http-statuses.enum.js'
 import { validationHandler } from '#handlers/validator.handler.js'
 import { NextFunction, Request, Response } from 'express'
 import { ValidationChain, body, validationResult } from 'express-validator'
@@ -56,7 +57,9 @@ export const validateUpdateUser =
       return next()
     }
 
-    res.status(400).json({ errors: errors.array() })
+    res
+      .status(HttpStatusCode.UNPROCESSABLE_ENTITY)
+      .json({ errors: errors.array() })
   }
 
 export const validateStoreUser =
@@ -86,5 +89,7 @@ export const validateStoreUser =
       return next()
     }
 
-    res.status(400).json({ errors: errors.array() })
+    res
+      .status(HttpStatusCode.UNPROCESSABLE_ENTITY)
+      .json({ errors: errors.array() })
   }
