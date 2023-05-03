@@ -35,6 +35,16 @@ const generateData = async (req: Request) => {
   return data
 }
 
+const checkUser = async (req: Request, id: number) => {
+  const exists = await req.prisma.user.count({
+    where: { id },
+  })
+
+  if (!exists) {
+    throw new NotFoundError('User not found!')
+  }
+}
+
 const index = async (req: Request, res: Response) => {}
 
 const store = async (req: Request, res: Response) => {
@@ -58,13 +68,7 @@ const store = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
   const id = Number(req.params.id)
 
-  const exists = await req.prisma.user.count({
-    where: { id },
-  })
-
-  if (!exists) {
-    throw new NotFoundError('User not found!')
-  }
+  await checkUser(req, id)
 
   const user = await req.prisma.user.update({
     where: { id },
@@ -79,7 +83,22 @@ const update = async (req: Request, res: Response) => {
   })
 }
 
-const remove = async (req: Request, res: Response) => {}
+const remove = async (req: Request, res: Response) => {
+  const id = Number(req.params.id)
+
+  await checkUser(req, id)
+
+  const user = await req.prisma.user.delete({
+    where: { id },
+  })
+
+  res.status(200).json({
+    messages: ['User successfully deleted!'],
+    data: {
+        user
+    }
+  })
+}
 
 const read = async (req: Request, res: Response) => {}
 

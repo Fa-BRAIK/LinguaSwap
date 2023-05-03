@@ -15,10 +15,16 @@ router.post(
 )
 
 router.patch(
-    '/:id',
+    '/:id([0-9]+)',
     [requiresPrisma, authenticateAdmin],
     validateUpdateUser(),
     asyncHandler(userController.update)
+)
+
+router.delete(
+    '/:id([0-9]+)',
+    [requiresPrisma, authenticateAdmin],
+    asyncHandler(userController.remove)
 )
 
 export default router
