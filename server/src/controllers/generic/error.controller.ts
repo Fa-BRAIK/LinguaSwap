@@ -1,6 +1,6 @@
 import HttpStatusCode from '#enums/http-statuses.enum.js'
 import { GenericError } from '#src/errors/generic.error.js'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/index.js'
+import { Prisma } from '@prisma/client'
 import { NextFunction, Request, Response } from 'express'
 
 const handleError = async (
@@ -31,7 +31,7 @@ const handleError = async (
 }
 
 const handleNonGenericError = (error: any): GenericError|null => {
-    if (error instanceof PrismaClientKnownRequestError) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
         console.log(error)
 
         return new GenericError(
