@@ -1,5 +1,5 @@
-import app from './app.js'
-import auth from './auth.js'
+import app from './app.config.js'
+import auth from './auth.config.js'
 
 const configs = {
     app,

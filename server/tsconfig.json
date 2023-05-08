@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
         "module": "NodeNext",
-        "moduleResolution": "NodeNext",
+        "moduleResolution": "Nodenext",
         "target": "ES2020",
         "sourceMap": true,
         "outDir": "dist",
+        "esModuleInterop": true,
         "paths": {
             "#routes/*": ["./src/routes/*"],
             "#controllers/*": ["./src/controllers/*"],
@@ -17,5 +18,6 @@
             "#src/*": ["./src/*"]
         }
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*"],
+    "exclude": ["src/**/*.test.ts"]
 }
