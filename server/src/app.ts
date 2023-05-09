@@ -1,9 +1,9 @@
 import express from 'express'
-import dotenv from 'dotenv'
 import router from '#routes/routes.js'
+import { loadConfig } from '#src/config.js'
 import { onlyJsonRequests } from '#middlewares/core/only-ajax.middleware.js'
- 
-dotenv.config()
+
+loadConfig()
 
 const app = express()
 
