@@ -1,0 +1,15 @@
+version: '2.17.3'
+
+services:
+  db: 
+    image: mysql:latest
+    restart: always
+    container_name: integration-tests-prisma
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: testing
+      MYSQL_DATABASE: linguaSwap_test
+      MYSQL_USER: linguaSwap
+      MYSQL_PASSWORD: testing

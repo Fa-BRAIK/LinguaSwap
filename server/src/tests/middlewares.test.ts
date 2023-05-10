@@ -1,4 +1,4 @@
-import { describe, expect, test } from '@jest/globals'
+import { describe, expect, it } from '@jest/globals'
 import supertest from 'supertest'
 import app from '../app.js'
 import config from './config.json'
