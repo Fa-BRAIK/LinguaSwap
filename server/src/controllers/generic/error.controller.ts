@@ -11,7 +11,8 @@ const handleError = async (
   res: Response,
   next: NextFunction
 ) => {
-    console.log(error)
+    req.logger.error(error)
+
     if (!(error instanceof GenericError)) {
         error = handleNonGenericError(error)
     }
@@ -34,15 +35,11 @@ const handleError = async (
 
 const handleNonGenericError = (error: any): GenericError|null => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        console.log(error)
-
         return new GenericError(
             500,
             'Server error'
         )
     } else if (error instanceof Prisma.PrismaClientInitializationError) {
-        console.log(error)
-
         return new GenericError(
             500,
             'Server error'

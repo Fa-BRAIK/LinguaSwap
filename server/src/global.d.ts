@@ -1,4 +1,5 @@
 import { User, Admin, PrismaClient } from '@prisma/client'
+import { Logger } from 'winston'
 
 declare global {
     namespace Express {
@@ -9,8 +10,11 @@ declare global {
             // Assuming we are protecting the route with a middleware
             admin: Admin
 
-            // After passing throug requires prisma middleware
+            // After passing through requires prisma middleware
             prisma: PrismaClient
+
+            // After passing through logged middleware
+            logger: Logger
         }
     }
 }

@@ -6,7 +6,7 @@ export const requiresPrisma = (
   res: Response,
   next: NextFunction
 ) => {
-    req.prisma = new PrismaClient()
+  req.prisma = new PrismaClient()
 
-    next()
+  next()
 }

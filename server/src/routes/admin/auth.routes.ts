@@ -14,7 +14,7 @@ router.post(
   asyncHandler(authController.login)
 )
 
-router.post('/refresh', requiresPrisma, asyncHandler(authController.refreshToken))
+router.post('/refresh', asyncHandler(authController.refreshToken))
 
 router.post(
   '/logout',
