@@ -12,8 +12,8 @@
     "start": "node dist/index.js",
     "dev": "rimraf dist && concurrently \"npx tsc --watch\" \"sleep 5 && nodemon -q dist/index.js\"",
     "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "pretest": "npm run docker:up && dotenv -e .env.test npx prisma migrate deploy",
+    "docker:down": "docker-compose down && docker-compose rm --force",
+    "pretest": " npm run docker:up && sleep 2 && dotenv -e .env.test npx prisma migrate deploy",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "posttest": "npm run docker:down"
   },
