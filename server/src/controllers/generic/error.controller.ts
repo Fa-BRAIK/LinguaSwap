@@ -9,7 +9,6 @@ const handleError = async (
   res: Response,
   next: NextFunction
 ) => {
-    console.log(error)
     if (!(error instanceof GenericError)) {
         error = handleNonGenericError(error)
     }
