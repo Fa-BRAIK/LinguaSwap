@@ -18,7 +18,7 @@ describe('POST /admin/auth/refresh', () => {
       .send({ email, password })
       .set(config.headers)
 
-    const refresh_token = response.body.refresh_token
+    refresh_token = response.body?.data?.refresh_token
   })
 
   it('Should not return an access_token', async () => {
@@ -36,7 +36,7 @@ describe('POST /admin/auth/refresh', () => {
       .send({ token: refresh_token })
       .set(config.headers)
 
-      expect(response.statusCode).toBe(200)
+      expect(response.statusCode).toBe(201)
   })
 
   it('Should return an access token', async () => {
@@ -45,6 +45,6 @@ describe('POST /admin/auth/refresh', () => {
       .send({ token: refresh_token })
       .set(config.headers)
 
-      expect(response.body.access_token).toBeDefined
+      expect(response.body.data.access_token).toBeDefined
   })
 })
