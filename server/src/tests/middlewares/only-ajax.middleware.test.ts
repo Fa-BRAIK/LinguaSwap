@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import supertest from 'supertest'
-import app from '../app.js'
-import config from './config.json'
+import app from '../../app.js'
+import config from '../config.json'
 
 describe('Request is always ajax', () => {
     it('Should return 421 error', async () => {

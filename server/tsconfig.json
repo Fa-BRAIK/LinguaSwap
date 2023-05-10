@@ -20,5 +20,5 @@
         }
     },
     "include": ["src/**/*"],
-    "exclude": ["src/tests/**/*.test.ts", "src/tests/**/*.json"]
+    "exclude": ["src/tests/**/*.test.ts", "src/tests/**/*.spec.ts", "src/tests/**/*.json"]
 }

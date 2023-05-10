@@ -1,8 +1,8 @@
 import { describe, expect, it, beforeAll } from '@jest/globals'
 import supertest from 'supertest'
-import app from '../app'
-import config from './config.json'
-import { createAdmin } from '../database/seeders/_admin.seed'
+import app from '../../app'
+import config from '../config.json'
+import { createAdmin } from '../../database/seeders/_admin.seed'
 
 describe('POST /admin/auth/login', () => {
   let email, password
