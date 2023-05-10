@@ -51,7 +51,8 @@
     "nodemon": "^2.0.22",
     "rimraf": "^5.0.0",
     "supertest": "^6.3.3",
-    "tslib": "^2.5.0"
+    "tslib": "^2.5.0",
+    "winston": "^3.8.2"
   },
   "imports": {
     "#routes/*": "./dist/routes/*",
@@ -62,6 +63,7 @@
     "#config/*": "./dist/config/*",
     "#middlewares/*": "./dist/middlewares/*",
     "#enums/*": "./dist/enums/*",
+    "#helpers/*": "./dist/helpers/*",
     "#src/*": "./dist/*"
   }
 }

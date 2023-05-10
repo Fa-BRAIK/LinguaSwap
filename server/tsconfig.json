@@ -16,6 +16,7 @@
             "#config/*": ["./src/config/*"],
             "#middlewares/*": ["./src/middlewares/*"],
             "#enums/*": ["./src/enums/*"],
+            "#helpers/*": ["./src/helpers/*"],
             "#src/*": ["./src/*"]
         }
     },
