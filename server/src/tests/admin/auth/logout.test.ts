@@ -8,7 +8,6 @@ describe('POST /admin/auth/logout', () => {
   let email: string,
     password: string,
     refresh_token: string,
-    access_token: string,
     request: SuperAgentTest
 
   beforeAll(async () => {
@@ -28,7 +27,7 @@ describe('POST /admin/auth/logout', () => {
       .set(config.headers)
 
     refresh_token = response.body?.data?.refresh_token
-    access_token = response.body?.data?.access_token
+    const access_token = response.body?.data?.access_token
 
     request.auth(access_token, { type: 'bearer' })
   })
