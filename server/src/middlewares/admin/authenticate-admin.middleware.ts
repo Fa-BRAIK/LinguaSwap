@@ -21,7 +21,7 @@ export const authenticateAdmin = async (
 
             let admin = <Admin>(jwt.verify(
                 token, 
-                config('auth.jwt.refresh_token')
+                config('auth.jwt.access_token')
             ))
 
             admin = await prisma.admin.findFirst({
@@ -33,7 +33,7 @@ export const authenticateAdmin = async (
             if (admin) {
                 req.admin = admin
 
-                next()
+                return next()
             }
         }
 
