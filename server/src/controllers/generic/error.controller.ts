@@ -21,14 +21,12 @@ const handleError = async (
         res.status(error.statusCode)
             .json({
                 status: error.status,
-                message: error.message,
-                // fields: 
+                messages: [error.message],
             })
     } else {
         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
             status: 'error',
-            message: 'Server error',
-            // fields: 
+            messages: ['Server error'],
         })
     }
 }

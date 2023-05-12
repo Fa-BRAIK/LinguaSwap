@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import { genSalt, hash } from 'bcrypt'
 import { NotFoundError } from '#errors/not-found.error.js'
 import HttpStatusCode from '#enums/http-statuses.enum.js'
+import { EntityExistsError } from '#errors/entity-exists.error.js'
+import { check } from 'express-validator'
 
 const generateData = async (req: Request) => {
   const data = {
@@ -36,6 +38,26 @@ const generateData = async (req: Request) => {
   return data
 }
 
+const checkUniqueEmail = async (req: Request, email: string, user_id: number|null = null) => { 
+  const user = await req.prisma.user.findFirst({
+    where: { email },
+  })
+  
+  if (user && user.id !== user_id) {
+    throw new EntityExistsError('Email already exists!')
+  }
+}
+
+const checkUniquePhoneNumber = async (req: Request, phoneNumber: string, user_id: number|null = null) => {
+  const user = await req.prisma.user.findFirst({
+    where: { phone_number: phoneNumber },
+  })
+  
+  if (user && user.id !== user_id) {
+    throw new EntityExistsError('Phone number already exists!')
+  }
+}
+
 const checkUser = async (req: Request, id: number) => {
   const exists = await req.prisma.user.count({
     where: { id },
@@ -49,11 +71,16 @@ const checkUser = async (req: Request, id: number) => {
 const index = async (req: Request, res: Response) => {}
 
 const store = async (req: Request, res: Response) => {
-  const salt = await genSalt()
-  const password = await hash(req.body.password, salt)
+  const data = await generateData(req)
+
+  await checkUniqueEmail(req, req.body.email)
+
+  if (req.body.phone_number) {  
+    await checkUniquePhoneNumber(req, req.body.phone_number)
+  }
 
   const user = await req.prisma.user.create({
-    data: await generateData(req),
+    data,
   })
 
   delete user.password, delete user.salt
@@ -68,6 +95,12 @@ const store = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
   const id = Number(req.params.id)
+
+  await checkUniqueEmail(req, req.body.email, id)
+
+  if (req.body.phone_number) {
+    await checkUniquePhoneNumber(req, req.body.phone_number, id)
+  }
 
   await checkUser(req, id)
 
