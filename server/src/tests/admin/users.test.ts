@@ -46,7 +46,7 @@ describe('Admin users routes', () => {
       expect(response.body.data.user.email).toBe(email)
       expect(response.body.data.user.name).toBe(name)
       expect(response.body.data.user.password).toBeUndefined
-      expect(response.body.user.salt).toBeUndefined
+      expect(response.body.data.user.salt).toBeUndefined
 
       user = response.body.user
     })
@@ -55,6 +55,8 @@ describe('Admin users routes', () => {
       const response = await request.post('/admin/users').send({
         name: 'John Doe',
         email: 'johndoe@example.com',
+        password: '@Testing2023',
+        password_confirmation: '@Testing2023',
       })
 
       expect(response.statusCode).toBe(400)
@@ -63,9 +65,6 @@ describe('Admin users routes', () => {
   })
 
   describe('PATCH /admin/users/:id', () => {
-    const name = 'John Doe'
-    const email = 'johndoe@example.com'
-
     it('Should fail if we are not connected', async () => {
       const response = await supertest(app)
         .patch(`/admin/users/${user.id}`)
@@ -87,7 +86,7 @@ describe('Admin users routes', () => {
       expect(response.body.data.user.email).toBe('jhohndoeupdated@example.com')
       expect(response.body.data.user.name).toBe('John Doe updated')
       expect(response.body.data.user.password).toBeUndefined
-      expect(response.body.user.salt).toBeUndefined
+      expect(response.body.data.user.salt).toBeUndefined
 
       user = response.body.user
     })
@@ -110,7 +109,7 @@ describe('Admin users routes', () => {
       expect(response.body.data.user.email).toBe(user.email)
       expect(response.body.data.user.name).toBe(user.name)
       expect(response.body.data.user.password).toBeUndefined
-      expect(response.body.user.salt).toBeUndefined
+      expect(response.body.data.user.salt).toBeUndefined
 
       user = response.body.user
     })
